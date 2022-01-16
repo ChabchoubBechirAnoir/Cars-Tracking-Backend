@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Identity.Web.Resource;
+using MongoDB.Bson;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,13 +33,13 @@ namespace MapFollow.Controllers
             return routesData;
         }
         [HttpPost]
-        public string Post(RouteData newRouteData)
+        public ObjectId Post(RouteData newRouteData)
         {
-            _ = routesService.CreateAsync(newRouteData);
+            var result  = routesService.CreateAsync(newRouteData);
             return newRouteData.Id;
         }
         [HttpDelete]
-        public string Delete(string id)
+        public ObjectId Delete(ObjectId id)
         {
             _ = routesService.RemoveAsync(id);
             return id;

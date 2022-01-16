@@ -1,5 +1,6 @@
 ﻿using MapFollow.Models;
 using Microsoft.Extensions.Options;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
@@ -33,16 +34,16 @@ namespace MapFollow.Services
         public async Task<List<RouteData>> GetAsync() =>
             await _routeDatasCollection.Find(_ => true).ToListAsync();
 
-        public async Task<RouteData?> GetAsync(string id) =>
+        public async Task<RouteData?> GetAsync(ObjectId id) =>
             await _routeDatasCollection.Find(x => x.Id == id).FirstOrDefaultAsync();
 
         public async Task CreateAsync(RouteData newRouteData) =>
-            await _routeDatasCollection.InsertOneAsync(newRouteData);
+            await _routeDatasCollection.InsertOneAsync(newRouteData).ConfigureAwait(false);
 
-        public async Task UpdateAsync(string id, RouteData updatedRouteData) =>
+        public async Task UpdateAsync(ObjectId id, RouteData updatedRouteData) =>
             await _routeDatasCollection.ReplaceOneAsync(x => x.Id == id, updatedRouteData);
 
-        public async Task RemoveAsync(string id) =>
+        public async Task RemoveAsync(ObjectId id) =>
             await _routeDatasCollection.DeleteOneAsync(x => x.Id == id);
 
         public async Task<List<Vehicule>> GetAsyncVehicule() =>
