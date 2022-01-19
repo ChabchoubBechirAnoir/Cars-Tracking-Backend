@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace MapFollow.Controllers
 {
-    //[Authorize]
+    //
     [ApiController]
     [Route("[controller]")]
     public class VehiculeController : ControllerBase
@@ -24,11 +24,18 @@ namespace MapFollow.Controllers
             _logger = logger;
             routesService = routesDataService;
         }
-
         [HttpGet]
         public IEnumerable<Vehicule> Get()
         {
             var routesData = routesService.GetAsyncVehicule().Result;
+            return routesData;
+        }
+        [Authorize]
+        [HttpGet("vehicle")]
+        public IEnumerable<RouteData> GetByVehicle()
+        {
+            var vehiculeId = Request.Query["vehiculeId"].FirstOrDefault();
+            var routesData = routesService.GetVehiculeRouteDataAsync(int.Parse(vehiculeId)).Result;
             return routesData;
         }
         [HttpPost]

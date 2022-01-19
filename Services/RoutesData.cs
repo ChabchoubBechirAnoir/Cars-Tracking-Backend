@@ -37,6 +37,9 @@ namespace MapFollow.Services
         public async Task<RouteData?> GetAsync(ObjectId id) =>
             await _routeDatasCollection.Find(x => x.Id == id).FirstOrDefaultAsync();
 
+        public async Task<List<RouteData>> GetVehiculeRouteDataAsync(int id) =>
+            await _routeDatasCollection.Find(x => x.Vehicle_Id == id).ToListAsync();
+
         public async Task CreateAsync(RouteData newRouteData) =>
             await _routeDatasCollection.InsertOneAsync(newRouteData).ConfigureAwait(false);
 
