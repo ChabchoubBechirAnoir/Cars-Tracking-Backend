@@ -12,7 +12,6 @@ using System.Threading.Tasks;
 
 namespace MapFollow.Controllers
 {
-    //[Authorize]
     [ApiController]
     [Route("[controller]")]
     public class RouteDataController : ControllerBase
